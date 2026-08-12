@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: mongo
-          image: k8s-mongo:latest
+          image: roelandvanaken/k8s-mongo:1.0
 
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
