@@ -15,13 +15,6 @@ spec:
   - host: apn.local
     http:
       paths:
-      - path: /argo(/|$)(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: argocd-server
-            port:  
-              number: 80
       - path: /api(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
@@ -38,14 +31,7 @@ spec:
               number: 80
   - host: rvanaken.duckdns.org
     http:
-      paths:
-      - path: /argo(/|$)(.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: argocd-server
-            port:  
-              number: 80                
+      paths:              
       - path: /api(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
