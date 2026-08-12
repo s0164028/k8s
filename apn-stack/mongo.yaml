@@ -57,18 +57,7 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
 
-        # ⭐ Readiness probe — checks if MongoDB is ready to accept queries
-          readinessProbe:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - |
-                mongo --eval "db.adminCommand('ping')" || exit 1
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
+
 
           volumeMounts:
             - name: mongo-data
