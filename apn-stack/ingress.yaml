@@ -10,11 +10,7 @@ metadata:
 
 spec:
   ingressClassName: nginx
-  tls:
-  - hosts:
-    - rvanaken.duckdns.org
-    - apn.local
-    secretName: selfsigned-tls
+
   rules:
   - host: apn.local
     http:
