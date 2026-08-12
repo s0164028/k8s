@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lighttpd
+  namespace: apn-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lighttpd
+  template:
+    metadata:
+      labels:
+        app: lighttpd
+    spec:
+      containers:
+        - name: lighttpd
+          image: roelandvanaken/k8s-lighttpd:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+              name: http
+          startupProbe: # checks if the server is started correctly
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 5
+          livenessProbe: # checks if the server still works every 5 seconds
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe: # checks if the server is ready to accept traffic
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 2 
+          volumeMounts:
+            - name: lighttpd-config
+              mountPath: /var/www/html/index.html
+              subPath: index.html
+
+            - name: lighttpd-config
+              mountPath: /etc/lighttpd/conf-enabled/99_custom.conf
+              subPath: 99_custom.conf
+
+      volumes:
+        - name: lighttpd-config
+          configMap:
+            name: lighttpd-config 
+               
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lighttpd
+  namespace: apn-stack
+spec:
+  selector:
+    app: lighttpd
+  ports:
+    - port: 80
+      targetPort: 80
+  type: NodePort
