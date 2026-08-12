@@ -64,7 +64,7 @@ spec:
               - /bin/sh
               - -c
               - |
-                mongosh --eval "db.adminCommand('ping')" || exit 1
+                mongo --eval "db.adminCommand('ping')" || exit 1
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
