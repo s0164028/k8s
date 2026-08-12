@@ -16,7 +16,6 @@ spec:
       containers:
         - name: lighttpd
           image: roelandvanaken/k8s-lighttpd:1.0
-          imagePullPolicy: Never
           ports:
             - containerPort: 80
               name: http

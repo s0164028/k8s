@@ -16,7 +16,7 @@ spec:
       containers:
         - name: node
           image: roelandvanaken/k8s-node:1.0
-          imagePullPolicy: Never
+
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:

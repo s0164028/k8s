@@ -29,7 +29,7 @@ spec:
       containers:
         - name: mongo
           image: k8s-mongo:latest
-          imagePullPolicy: Never
+
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
