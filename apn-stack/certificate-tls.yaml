@@ -1,0 +1,28 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-server-tls
+  namespace: argocd
+spec:
+  secretName: argocd-server-tls
+  issuerRef:
+    name: clusterissuer-selfsigned
+    kind: ClusterIssuer
+  dnsNames:
+  - argocd.local
+  
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: apn-tls
+  namespace: apn-stack
+spec:
+  secretName: apn-tls
+  issuerRef:
+    name: clusterissuer-selfsigned
+    kind: ClusterIssuer
+  dnsNames:
+  - apn.local
+  - rvanaken.duckdns.org
