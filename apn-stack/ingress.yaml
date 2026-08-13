@@ -12,12 +12,6 @@ metadata:
 
 spec:
   ingressClassName: nginx
-  tls:
-  - hosts:
-      - apn.local
-      - rvanaken.duckdns.org
-    # cert-manager creates and manages this secret
-    secretName: apn-tls
 
   rules:
   - host: apn.local
@@ -85,8 +79,46 @@ spec:
                 name: argocd-server
                 port:
                   number: 443
-  tls:
-  - hosts:
-      - argocd.local
-    # cert-manager creates and manages this secret
-    secretName: argocd-server-tls   
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus-ingress
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: prometheus.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: monitoring-kube-prometheus-prometheus
+            port:
+              number: 9090 
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: grafana.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: monitoring-grafana
+            port:
+              number: 80
