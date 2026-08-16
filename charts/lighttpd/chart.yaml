@@ -1,0 +1,6 @@
+apiVersion: v2
+name: lighttpd
+description: A minimal Lighttpd frontend for the APN stack
+type: application
+version: 0.1.0
+appVersion: "1.0"

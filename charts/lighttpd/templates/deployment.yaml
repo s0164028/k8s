@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lighttpd
-  namespace: apn-stack
+  namespace: {{ .Release.Namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: lighttpd
@@ -15,28 +15,33 @@ spec:
     spec:
       containers:
         - name: lighttpd
-          image: roelandvanaken/k8s-lighttpd:1.0
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80
               name: http
-          startupProbe: # checks if the server is started correctly
+
+          startupProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 2
-            periodSeconds: 3
-            failureThreshold: 5
-          livenessProbe: # checks if the server still works every 5 seconds
+            initialDelaySeconds: {{ .Values.probes.startup.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+
+          livenessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          readinessProbe: # checks if the server is ready to accept traffic
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+
+          readinessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 2 
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+
           volumeMounts:
             - name: lighttpd-config
               mountPath: /var/www/html/index.html
@@ -49,18 +54,4 @@ spec:
       volumes:
         - name: lighttpd-config
           configMap:
-            name: lighttpd-config 
-               
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: lighttpd
-  namespace: apn-stack
-spec:
-  selector:
-    app: lighttpd
-  ports:
-    - port: 80
-      targetPort: 80
-  type: NodePort
+            name: lighttpd-config

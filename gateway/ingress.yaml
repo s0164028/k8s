@@ -61,10 +61,10 @@ metadata:
   namespace: argocd
   annotations:
     # Tell cert-manager which issuer to use
-    cert-manager.io/cluster-issuer: clusterissuer-selfsigned
+    #cert-manager.io/cluster-issuer: clusterissuer-selfsigned
     # Nginx-specific annotations
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"    
+    #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    #nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"    
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
@@ -79,7 +79,7 @@ spec:
                 name: argocd-server
                 port:
                   number: 443
-
+---
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -101,7 +101,7 @@ spec:
             name: prometheus-service
             port:
               number: 9090 
-
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -122,3 +122,23 @@ spec:
             name: monitoring-grafana
             port:
               number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portainer
+  namespace: portainer
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: portainer.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: portainer
+            port:
+              number: 9000

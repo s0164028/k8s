@@ -1,0 +1,103 @@
+image:
+  repository: roelandvanaken/k8s-lighttpd
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 80
+
+probes:
+  startup:
+    initialDelaySeconds: 2
+    periodSeconds: 3
+    failureThreshold: 5
+
+  liveness:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+  readiness:
+    initialDelaySeconds: 2
+
+config:
+  indexHtml: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>APN Minimal</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .section { margin-bottom: 30px; }
+      </style>
+    </head>
+    <body>
+
+      <h2>Hello, <span id="user">Loading...</span>!</h2>
+
+      <div class="section">
+        <h3>Server Info</h3>
+        <div id="server-info" style="padding:10px; background:#f0f0f0; border-radius:6px;">
+          Loading server info...
+        </div>
+      </div>
+
+      <script>
+        async function init() {
+          const userEl = document.getElementById('user');
+          const infoEl = document.getElementById('server-info');
+
+          try {
+            const res = await fetch('/api/info');
+            const data = await res.json();
+            infoEl.innerHTML = `
+              <strong>Container ID:</strong> ${data.container_id}<br>
+              <strong>Platform:</strong> ${data.platform}<br>
+              <strong>Architecture:</strong> ${data.architecture}
+            `;
+          } catch {
+            infoEl.textContent = 'Error fetching server info';
+          }
+
+          try {
+            const userRes = await fetch('/api/user');
+            const userData = await userRes.json();
+            userEl.innerText = userData.name;
+          } catch {
+            userEl.innerText = "Unknown user";
+          }
+        }
+
+        init();
+      </script>
+
+    </body>
+    </html>
+
+  customConf: |
+    server.modules += ( "mod_proxy", "mod_rewrite" )
+
+    $HTTP["url"] =~ "^/api/info" {
+        proxy.server = (
+            "" => (
+                "node" => (
+                    "host" => "node",
+                    "port" => 3000
+                )
+            )
+        )
+    }
+
+    $HTTP["url"] =~ "^/api/user" {
+        proxy.server = (
+            "" => (
+                "node" => (
+                    "host" => "node",
+                    "port" => 3000
+                )
+            )
+        )
+    }

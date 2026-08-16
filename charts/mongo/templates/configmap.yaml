@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-initdb
+  namespace: {{ .Release.Namespace }}
+data:
+  seed.js: |
+{{ .Values.seed.script | indent 4 }}

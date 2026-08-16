@@ -1,0 +1,16 @@
+image:
+  repository: roelandvanaken/k8s-node
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 3000
+
+mongo:
+  secretName: mongo-creds
+  usernameKey: username
+  passwordKey: password
+  url: "mongodb://$(MONGO_INITDB_ROOT_USERNAME):$(MONGO_INITDB_ROOT_PASSWORD)@mongo:27017/db?authSource=admin"
