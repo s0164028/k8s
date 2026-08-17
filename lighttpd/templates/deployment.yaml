@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lighttpd
-  namespace: {{ .Release.Namespace }}
+  namespace: apn-stack
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:

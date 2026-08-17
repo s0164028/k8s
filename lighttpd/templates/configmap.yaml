@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: lighttpd-config
-  namespace: {{ .Release.Namespace }}
+  namespace: apn-stack
 data:
   index.html: |
 {{ .Values.config.indexHtml | indent 4 }}
