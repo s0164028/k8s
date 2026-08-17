@@ -8,7 +8,7 @@ appVersion: "1.0"
 dependencies:
   - name: lighttpd
     version: 0.1.0
-    repository: "file://lighttpd"
+    repository: "file://charts/lighttpd"
 
   - name: node
     version: 0.1.0
@@ -16,4 +16,4 @@ dependencies:
 
   - name: mongo
     version: 0.1.0
-    repository: "file://mongo"
+    repository: "file://charts/mongo"
