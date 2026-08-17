@@ -1,11 +1,13 @@
 lighttpd:
   replicaCount: 1
   image:
+    repository: roelandvanaken/k8s-lighttpd
     tag: "1.0"
 
 node:
   replicaCount: 1
   image:
+    repository: roelandvanaken/k8s-node
     tag: "1.0"
   mongo:
     secretName: mongo-creds
