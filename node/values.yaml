@@ -6,7 +6,7 @@ image:
 replicaCount: 3
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 3000
 
 mongo:
@@ -14,3 +14,17 @@ mongo:
   usernameKey: username
   passwordKey: password
   url: "mongodb://$(MONGO_INITDB_ROOT_USERNAME):$(MONGO_INITDB_ROOT_PASSWORD)@mongo:27017/db?authSource=admin"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
