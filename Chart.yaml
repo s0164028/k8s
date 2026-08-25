@@ -1,0 +1,19 @@
+apiVersion: v2
+name: apn-stack
+description: Umbrella chart for Lighttpd, Node.js, and MongoDB
+type: application
+version: 0.1.0
+appVersion: "1.0"
+
+dependencies:
+  - name: lighttpd
+    version: 0.1.0
+    repository: "file://lighttpd"
+
+  - name: node
+    version: 0.1.0
+    repository: "file://node"
+
+  - name: mongo
+    version: 0.1.0
+    repository: "file://mongo"

@@ -1,0 +1,12 @@
+dependencies:
+- name: lighttpd
+  repository: file://lighttpd
+  version: 0.1.0
+- name: node
+  repository: file://node
+  version: 0.1.0
+- name: mongo
+  repository: file://mongo
+  version: 0.1.0
+digest: sha256:54a24bc78712972b5bce073b09c4c323cf98e7d755ed918d932446f386fbafc1
+generated: "2026-08-17T10:59:13.382545906+02:00"

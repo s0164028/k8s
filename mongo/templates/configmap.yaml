@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-initdb
+  namespace: apn-stack
+data:
+  seed.js: |
+{{ .Values.seed.script | indent 4 }}
