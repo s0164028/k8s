@@ -3,7 +3,7 @@ lighttpd:
 
 
 node:
-  replicaCount: 1
+  replicaCount: 3
 
 
 mongo:
