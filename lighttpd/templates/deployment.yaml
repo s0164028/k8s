@@ -51,6 +51,10 @@ spec:
               mountPath: /etc/lighttpd/conf-enabled/99_custom.conf
               subPath: 99_custom.conf
 
+            - name: lighttpd-config
+              mountPath: /var/www/html/healthz.html
+              subPath: healthz.html
+
       volumes:
         - name: lighttpd-config
           configMap:
