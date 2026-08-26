@@ -101,3 +101,21 @@ config:
             )
         )
     }
+  healthz.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Health Check</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .status { padding: 10px; background: #d4edda; border-radius: 6px; color: #155724; }
+      </style>
+    </head>
+    <body>  
+      <h2>Health Check</h2>
+      <div class="status">
+        <strong>Status:</strong> Healthy
+      </div>
+    </body>
+    </html>

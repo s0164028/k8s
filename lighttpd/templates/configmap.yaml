@@ -9,3 +9,6 @@ data:
 
   99_custom.conf: |
 {{ .Values.config.customConf | indent 4 }}
+
+  healthz.html: |
+{{ .Values.config.healthzHtml | indent 4 }}
